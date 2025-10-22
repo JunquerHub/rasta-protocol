@@ -506,7 +506,11 @@ redundancy_mux redundancy_mux_init_with_devices(struct logger_t logger, struct R
     redundancy_mux mux;
 
     mux.logger = logger;
-    mux.listen_ports = listen_ports;
+    if (port_count > 0) {
+        mux.listen_ports = rmalloc(sizeof(uint16_t) * port_count);
+    } else {
+        mux.listen_ports = NULL;
+    }
     mux.port_count = port_count;
     mux.config = config;
 
@@ -525,6 +529,9 @@ redundancy_mux redundancy_mux_init_with_devices(struct logger_t logger, struct R
         logger_log(&mux.logger, LOG_LEVEL_DEBUG, "RaSTA RedMux init", "setting up udp socket %d/%d", i+1,port_count);
         mux.udp_socket_fds[i] = udp_init();
         udp_bind_device(mux.udp_socket_fds[i], (uint16_t)listen_ports[i].port, listen_ports[i].ip);
+        if (mux.listen_ports != NULL) {
+            mux.listen_ports[i] = (uint16_t)listen_ports[i].port;
+        }
     }
 
     // allocate memory for connected channels

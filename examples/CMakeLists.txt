@@ -24,6 +24,12 @@ if(BUILD_LOCAL_EXAMPLES)
     configure_file(../config/rasta_client2_local.cfg ../rasta_client2_local.cfg COPYONLY)
 endif(BUILD_LOCAL_EXAMPLES)
 
+if(BUILD_SCI_DATAGRAM_POC)
+    add_executable(sci_datagram_poc
+            localhost/c/sci_datagram_poc.c)
+    target_link_libraries(sci_datagram_poc rasta)
+endif()
+
 if(BUILD_REMOTE_EXAMPLES)
     # scip_example
     add_executable(scip_example

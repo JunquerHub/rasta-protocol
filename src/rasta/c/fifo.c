@@ -2,6 +2,7 @@
 
 #include "rmemory.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 fifo_t * fifo_init(unsigned int max_size){
     fifo_t * fifo = rmalloc(sizeof(fifo_t));
